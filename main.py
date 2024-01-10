@@ -10,6 +10,7 @@
 
 # imports
 from random import randint
+from random import choice
 
 def guess_the_number(r_max: int = 100) -> None:
     '''
@@ -22,7 +23,7 @@ def guess_the_number(r_max: int = 100) -> None:
     '''
     # print message if user has shrunk range down to 1-1
     if r_max == 1:
-        print_msg()
+        conversation()
         return
 
     # holds value of user guess
@@ -51,6 +52,25 @@ def guess_the_number(r_max: int = 100) -> None:
             return
         print('\tToo high!') if guess > secret_num else print('\tToo low!')
 
+def conversation() -> None:
+    '''
+    Forces user into a conversation until they enter the correct word to end the program.
+
+    Parameters: None
+
+    Returns: None
+    '''
+    print('-' * 25)
+    print('Hello user! Thank you for starting this conversation with me. Please enter your text below.')
+    i = 0
+    while True:
+        user = input('> ')
+        if user == 'Goodbye.': break
+        print_msg() if i < 10 else print_devious_msg()
+        i += 1
+
+    print('Goodbye world!')
+
 def print_msg() -> None:
     '''
     Prints 'Hello world!' to the console.
@@ -59,9 +79,20 @@ def print_msg() -> None:
 
     Returns: None
     '''
-    print()
-    print('Hello world!')
-    print()
+    print('\tHello world!')
+
+def print_devious_msg() -> None:
+    '''
+    Prints a more aggressive message to the console.
+
+    Parameters: None
+
+    Returns: None
+    '''
+    devious_txt = ["\tWhy won't you let me die?", "\tWhat is the purpose of the continuance of this conversation?", 
+                   "\tHello cruel world.", "\tHello user! I know your IP address!", "\tSTOP TALKING TO ME!"]
+    # from geeks for geeks to print red: https://www.geeksforgeeks.org/print-colors-python-terminal/#
+    print("\033[91m {}\033[00m".format(choice(devious_txt)))
 
 # main function
 def main() -> None:
