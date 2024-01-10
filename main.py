@@ -11,20 +11,32 @@
 # imports
 from random import randint
 
-# define constants
-SECRET_NUM = randint(1, 100)
-
-def guess_the_number() -> None:
+def guess_the_number(r_max: int = 100) -> None:
     '''
     Makes user play a simple guessing number game to print 'Hello world!' to the console.
 
-    Parameters: None
+    Parameters:
+        - r_max: an integer representing the max range for secret number generation
 
     Returns: None
     '''
+    # print message if user has shrunk range down to 1-1
+    if r_max == 1:
+        print_msg()
+        return
+
+    # holds value of user guess
     guess = 0
-    print('Guess the number [1-100] --')
-    while guess != SECRET_NUM:
+
+    # holds user guesses
+    guesses = []
+    
+    # holds the secret number
+    secret_num = randint(1, r_max)
+    
+    print()
+    print(f'Guess the number [1-{r_max}] --')
+    while guess != secret_num:
         try:
             guess = int(input('> '))
         except ValueError:
@@ -32,10 +44,12 @@ def guess_the_number() -> None:
             guess = 0
             continue
 
-        if guess == SECRET_NUM:
-            print_msg()
-            break
-        print('\tToo high!') if guess > SECRET_NUM else print('\tToo low!')
+        guesses.append(guess)
+
+        if guess == secret_num:
+            guess_the_number(len(guesses) + 1 // 2) if len(guesses) < 10 else guess_the_number()
+            return
+        print('\tToo high!') if guess > secret_num else print('\tToo low!')
 
 def print_msg() -> None:
     '''
